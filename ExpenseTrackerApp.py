@@ -16,61 +16,68 @@ class ExpenseTrackerApp:
         # All the widgets used in the UI are present in this constructor
 
         # Create a label and entry widget for the expense type
-        self.eTypeLabel = ttk.Label(self.master, text="Expense Type:", font=("TkDefaultFont", 16))
-        self.eTypeLabel.grid(row=0, column=0, padx=10, pady=10, sticky="w")
-        self.entryType = ttk.Entry(self.master, font=("TkDefaultFont", 16))
+        self.eTypeLabel = ttk.Label(self.master, text="Expense Type :", background='red', font=("Cambria", 16))
+        self.eTypeLabel.grid(row=0, column=0, padx=30, pady=10, sticky="w")
+        self.entryType = ttk.Entry(self.master, font=("Cambria", 16))
         self.entryType.grid(row=0, column=1, padx=10, pady=10, sticky="we")
 
         # Create a label and entry widget for the amount
-        self.eAmt = ttk.Label(self.master, text="Amount:", font=("TkDefaultFont", 16))
-        self.eAmt.grid(row=1, column=0, padx=10, pady=10, sticky="w")
-        self.entryAmt = ttk.Entry(self.master, font=("TkDefaultFont", 16))
+        self.eAmt = ttk.Label(self.master, text="Amount :", background='skyblue', font=("Cambria", 16))
+        self.eAmt.grid(row=1, column=0, padx=30, pady=10, sticky="w")
+        self.entryAmt = ttk.Entry(self.master, font=("Cambria", 16))
         self.entryAmt.grid(row=1, column=1, padx=10, pady=10, sticky="we")
 
         # Create a button to submit the expense
-        self.btnAdd = ttk.Button(self.master, text="Submit", command=self.submit_expense)
-        self.btnAdd.grid(row=2, column=1, padx=10, pady=10, sticky="w")
+        self.btnAdd = tk.Button(self.master, text="Submit", background='lightgreen', borderwidth=5, width=15, height=1,
+                                command=self.submit_expense)
+        self.btnAdd.grid(row=2, column=1, padx=70, pady=2, sticky="w")
 
         # Create a button to delete all the rows selected in the table
-        self.btnDelete = ttk.Button(self.master, text="Delete Selected", command=self.delete_selected)
-        self.btnDelete.grid(row=2, column=2, padx=10, pady=10, sticky="we")
+        self.btnDelete = tk.Button(self.master, text="Delete Selected", background='red', borderwidth=5, width=15,
+                                   height=1, command=self.delete_selected)
+        self.btnDelete.grid(row=2, column=2, padx=30, pady=10, sticky="w")
 
         # Create a label and entry widget for the expense type
-        self.search = ttk.Label(self.master, text="Search Expense:", font=("TkDefaultFont", 16))
-        self.search.grid(row=0, column=2, padx=20, pady=10, sticky="w")
+        self.search = ttk.Label(self.master, text="Search Expense :", background='skyblue', font=("Cambria", 16))
+        self.search.grid(row=3, column=0, padx=30, pady=10, sticky="w")
 
         # Create an entry widget to input the search sequence
-        self.searchStr = ttk.Entry(self.master, font=("TkDefaultFont", 16))
-        self.searchStr.grid(row=0, column=3, padx=10, pady=10, sticky="we")
+        self.searchStr = ttk.Entry(self.master, font=("Cambria", 16))
+        self.searchStr.grid(row=3, column=1, padx=10, pady=10, sticky="we")
 
         # Create a label and entry widget for the amount
-        self.total = ttk.Label(self.master, text="Total for selected:", font=("TkDefaultFont", 16))
-        self.total.grid(row=1, column=2, padx=20, pady=10, sticky="w")
+        self.total = ttk.Label(self.master, text="Total for selected :", background='skyblue', font=("Cambria", 16))
+        self.total.grid(row=0, column=2, padx=20, pady=10, sticky="w")
 
         # Create a label to show the average for the expense list shown in the table
-        self.avg = ttk.Label(self.master, text="Avg for selected:", font=("TkDefaultFont", 16))
-        self.avg.grid(row=1, column=3, padx=20, pady=10, sticky="e")
+        self.avg = ttk.Label(self.master, text="Avg for selected :", background='skyblue', font=("Cambria", 16))
+        self.avg.grid(row=1, column=2, padx=20, pady=10, sticky="we")
 
         # Stylizing the TreeView
         style = ttk.Style(self.master)
-        style.configure("Treeview.Heading", font=('Helvetica', 16), foreground="black")
-        style.configure("Treeview", font=('Helvetica', 15), foreground="black")
+        style.configure("Treeview.Heading", font=('Cambria', 16), foreground="black")
+        style.configure("Treeview", font=('Cambria', 12), foreground="black", background='light green')
 
         # create a Treeview widget to display the expenses
         self.tree = ttk.Treeview(self.master, columns=('Type', 'Amount', 'Date'), show='headings')
-        self.tree.heading('Type', text='Type')
-        self.tree.heading('Amount', text='Amount')
+        self.tree.heading('Type', text='Type', anchor='center')
+        self.tree.heading('Amount', text='Amount', anchor='center')
         self.tree.heading('Date', text='Date')
-        self.tree.grid(row=3, column=0, padx=10, pady=10, columnspan=5, sticky="nsew")
+        self.tree.column('Type', anchor='center')
+        self.tree.column('Amount', anchor='center')
+        self.tree.column('Date', anchor='center')
+        self.tree.grid(row=4, column=0, padx=20, pady=20, columnspan=4, sticky="we")
         self.tree.configure(height=12)
 
         # Create a button to search the search string
-        self.btn_find = ttk.Button(self.master, text="Find", command=self.populate_treeview)
-        self.btn_find.grid(row=0, column=4, padx=10, pady=10, sticky="e")
+        self.btn_find = tk.Button(self.master, text="Find", background='lightblue', borderwidth=5, width=10, height=1,
+                                  command=self.populate_treeview)
+        self.btn_find.grid(row=3, column=2, padx=10, pady=10, sticky="w")
 
         # Create a button that will clear the searchStr entry widget
-        self.btn_clear = ttk.Button(self.master, text="Clear Search", command=self.reset_tree)
-        self.btn_clear.grid(row=2, column=3, padx=10, pady=10, sticky="e")
+        self.btn_clear = tk.Button(self.master, text="X", background='red', borderwidth=5, command=self.reset_tree,
+                                   highlightthickness=0)
+        self.btn_clear.grid(row=3, column=1, padx=10, pady=10, sticky="e")
 
         # Refresh the expense table
         self.reset_tree()
